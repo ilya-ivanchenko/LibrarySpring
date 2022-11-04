@@ -6,16 +6,15 @@ import javax.validation.constraints.Size;
 
 public class Book {
     private int bookId;
-    @Size(min = 1, max = 75, message = "Слишком длинное название книги!")
-    @NotEmpty(message = "Название книги не должно быть пустым!")
+
+    private int personId;
+    @Size(min = 1, max = 75, message = "Слишком короткое или длинное название книги!")
     private String bookName;
 
-    @Size(min = 1, max = 75, message = "Слишком длинное имя автора!")
-    @NotEmpty(message = "Имя автора не должно быть пустым!")
+    @Size(min = 1, max = 75, message = "Слишком  короткое или длинное имя автора!")
     private String author;
 
-
-    @Pattern(regexp = "\\d{4}", message = "Введите год в формате XXXX")
+//    @Pattern(regexp = "\\d{4}", message = "Введите год в формате XXXX")
     private int bookYear;
 
     public Book(int bookId, String bookName, String author, int bookYear) {
@@ -23,6 +22,9 @@ public class Book {
         this.bookName = bookName;
         this.author = author;
         this.bookYear = bookYear;
+    }
+
+    public Book() {
     }
 
     public int getBookId() {
@@ -55,5 +57,13 @@ public class Book {
 
     public void setBookYear(int bookYear) {
         this.bookYear = bookYear;
+    }
+
+    public int getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(int personId) {
+        this.personId = personId;
     }
 }
