@@ -1,5 +1,6 @@
 package by.epam.ivanchenko.dao;
 
+import by.epam.ivanchenko.model.Book;
 import by.epam.ivanchenko.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -17,8 +18,7 @@ public class PersonDAO {
 
     private static final String SHOW_ALL_PERSON = "SELECT * FROM person";
     private static final String ADD_PERSON = "INSERT INTO person (name, year) VALUES(?, ?)";
-    private static final String FIND_PERSON_YEAR = "SELECT * FROM person WHERE year = ?";
-    private static final String FIND_PERSON_NAME = "SELECT * FROM person WHERE name = ?";
+    private static final String FIND_PERSON = "SELECT * FROM person WHERE name = ?";
     private static final String FIND_PERSON_ID = "SELECT * FROM person WHERE id = ?";
     private static final String EDIT_PERSON = "UPDATE person SET name = ?, year = ? WHERE id = ?";
     private static final String DELETE_PERSON = "DELETE FROM person WHERE  id = ?";
@@ -34,11 +34,7 @@ public class PersonDAO {
     }
 
     public Optional<Person> show(String personName) {
-        return jdbcTemplate.query(FIND_PERSON_NAME, new BeanPropertyRowMapper<>(Person.class),personName).stream().findAny();
-    }
-
-    public Optional<Person> show(int birthYear) {
-        return jdbcTemplate.query(FIND_PERSON_YEAR, new BeanPropertyRowMapper<>(Person.class),birthYear).stream().findAny();
+        return jdbcTemplate.query(FIND_PERSON, new BeanPropertyRowMapper<>(Person.class), personName).stream().findAny();
     }
 
     public Person find(int id) {
@@ -55,5 +51,9 @@ public class PersonDAO {
 
     public void delete(int id) {
         jdbcTemplate.update(DELETE_PERSON, id);
+    }
+
+    public List<Book> getPersonBook(int id) {
+
     }
 }

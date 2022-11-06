@@ -6,14 +6,18 @@
 </head>
 <body>
 <!--в HTML 5 есть только методы GET  и PUT-->
-    <form th:method="PATCH" th:action="@{/people/{id}(id=${person.getPersonId()})}" th:object="${person}">
-        <label for="personName">Введите ФИО:</label>
-        <input type="text" th:field="*{personName}" id="personName">
-        <div style="color: red" th:if="${#fields.hasErrors('personName')}" th:errors="*{personName}">some error</div>
+    <form th:method="PATCH" th:action="@{/book/{id}(id=${book.getBookId()})}" th:object="${book}">
+        <label for="bookName">Введите название книги:</label>
+        <input type="text" th:field="*{bookName}" id="bookName">
+        <div style="color: red" th:if="${#fields.hasErrors('bookName')}" th:errors="*{bookName}">some error</div>
         <br/>
-        <label for="birthYear">Введите год:</label>
-        <input type="text" th:field="*{birthYear}" id="birthYear">
-        <div style="color: red" th:if="${#fields.hasErrors('birthYear')}" th:errors="*{birthYear}">some error</div>
+        <label for="author">Введите автора:</label>
+        <input type="text" th:field="*{author}" id="author">
+        <div style="color: red" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">some error</div>
+        <br/>
+        <label for="bookYear">Введите год:</label>
+        <input type="text" th:field="*{bookYear}" id="bookYear">
+        <div style="color: red" th:if="${#fields.hasErrors('bookYear')}" th:errors="*{bookYear}">some error</div>
         <br/>
         <input type="submit" value="Редактировать!">
     </form>

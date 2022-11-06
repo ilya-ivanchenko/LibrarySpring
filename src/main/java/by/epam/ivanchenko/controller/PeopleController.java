@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 
 @Controller
@@ -33,6 +34,7 @@ public class PeopleController {
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model peopleModel) {
         peopleModel.addAttribute("person", personDAO.find(id));
+        peopleModel.addAttribute("book", personDAO.)
         return "people/show";
     }
 
@@ -59,7 +61,9 @@ public class PeopleController {
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult, @PathVariable("id") int id) {
+    public String update(@ModelAttribute("person")
+                         @Valid Person person, BindingResult bindingResult,
+                         @PathVariable("id") int id) {
         personValidator.validate(person, bindingResult);
 
         if (bindingResult.hasErrors()) {
@@ -70,7 +74,7 @@ public class PeopleController {
     }
 
     @DeleteMapping("/{id}")
-    public String delete( @PathVariable("id") int id) {
+    public String delete(@PathVariable("id") int id) {
         personDAO.delete(id);
         return "redirect:/people";
     }
