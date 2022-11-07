@@ -1,7 +1,9 @@
 package by.epam.ivanchenko.controller;
 
 import by.epam.ivanchenko.dao.BookDAO;
+import by.epam.ivanchenko.dao.PersonDAO;
 import by.epam.ivanchenko.model.Book;
+import by.epam.ivanchenko.model.Person;
 import by.epam.ivanchenko.util.BookValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,11 +17,14 @@ import javax.validation.Valid;
 @RequestMapping("/book")
 public class BookController {
     private final BookDAO bookDAO;
+
+    private final PersonDAO personDAO;
     private final BookValidator bookValidator;
 
     @Autowired
-    public BookController(BookDAO bookDAO, BookValidator bookValidator) {
+    public BookController(BookDAO bookDAO, PersonDAO personDAO, BookValidator bookValidator) {
         this.bookDAO = bookDAO;
+        this.personDAO = personDAO;
         this.bookValidator = bookValidator;
     }
 
@@ -46,8 +51,10 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public String showBook(@PathVariable("id") int id, Model bookModel) {
+    public String showBook(@PathVariable("id") int id, Model bookModel, @ModelAttribute("person") Person person) {
         bookModel.addAttribute("book", bookDAO.findBook(id));
+        bookModel.addAttribute("owner", bookDAO.getPerson(id));
+        bookModel.addAttribute("personList",personDAO.index());
         return "book/show";
     }
 
@@ -74,6 +81,18 @@ public class BookController {
     public String deleteBook(@PathVariable("id") int id) {
         bookDAO.deleteBook(id);
         return "redirect:/book";
+    }
+
+    @PatchMapping("/{id}/set")
+    public String setBook(@ModelAttribute("person") Person person, @PathVariable("id") int bookId) {
+        bookDAO.setPerson(person.getPersonId(), bookId);
+        return "redirect:/book/{id}";
+    }
+
+    @PatchMapping("/{id}/del")
+    public String delBook( @PathVariable("id") int bookId) {
+        bookDAO.delPerson(bookId);
+        return "redirect:/book/{id}";
     }
 
 }

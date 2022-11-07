@@ -22,6 +22,7 @@ public class PersonDAO {
     private static final String FIND_PERSON_ID = "SELECT * FROM person WHERE id = ?";
     private static final String EDIT_PERSON = "UPDATE person SET name = ?, year = ? WHERE id = ?";
     private static final String DELETE_PERSON = "DELETE FROM person WHERE  id = ?";
+    private static final String SHOW_PERSON_BOOKS = "SELECT * FROM book WHERE person_id = ?";
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -54,6 +55,6 @@ public class PersonDAO {
     }
 
     public List<Book> getPersonBook(int id) {
-
+        return  jdbcTemplate.query(SHOW_PERSON_BOOKS, new BookMapper(), id);
     }
 }

@@ -1,6 +1,7 @@
 package by.epam.ivanchenko.dao;
 
 import by.epam.ivanchenko.model.Book;
+import by.epam.ivanchenko.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -17,9 +18,11 @@ public class BookDAO {
     private static final String FIND_BOOK_ID = "SELECT * FROM book WHERE id = ?";
     private static final String EDIT_BOOK = "UPDATE book SET name = ?, author = ?, year = ? WHERE id = ?";
     private static final String DELETE_BOOK = "DELETE FROM book WHERE id = ?";
-    private static final String GET_BOOK_WITH_USER_NAME = "SELECT book.*, person.name FROM book JOIN person ON person.id" +
-            " = book.person_id WHERE book.id = ?;";
-
+    private static final String GET_USER_BOOK ="SELECT * FROM person WHERE id = (SELECT person_id FROM book WHERE id = ?)";
+//            "SELECT book.*, person.name FROM book JOIN person ON person.id" +
+//                    " = book.person_id WHERE book.id = ?;";
+private static final String SET_USER_BOOK ="UPDATE book SET person_id = ? WHERE id = ?";
+    private static final String DEL_USER_BOOK ="UPDATE book SET person_id = null WHERE id = ?";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -52,7 +55,16 @@ public class BookDAO {
         jdbcTemplate.update(DELETE_BOOK,id);
     }
 
-//    public Book findBusyBook(int id) {
-//        return jdbcTemplate.query(GET_BOOK_WITH_USER_NAME, new BookMapper(), id).stream().findAny().orElse(null);
-//    }
+    public Person getPerson(int bookId) {
+        return jdbcTemplate.query(GET_USER_BOOK, new PersonMapper(), bookId).stream().findAny().orElse(null);
+    }
+
+    public void setPerson(int personId, int bookId) {
+      jdbcTemplate.update(SET_USER_BOOK, personId, bookId);
+    }
+
+    public void delPerson(int bookId) {
+        jdbcTemplate.update(DEL_USER_BOOK,bookId);
+    }
+
 }
