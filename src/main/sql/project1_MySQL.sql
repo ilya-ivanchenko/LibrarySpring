@@ -1,0 +1,14 @@
+CREATE TABLE person (
+    id   INT         NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(75) NOT NULL UNIQUE,
+    year INT         NOT NULL
+);
+
+CREATE TABLE book (
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(75) NOT NULL,
+    author VARCHAR(75) NOT NULL,
+    year INT NOT NULL,
+    person_id INT,
+    FOREIGN KEY (person_id) REFERENCES person(id) ON DELETE SET NULL
+);

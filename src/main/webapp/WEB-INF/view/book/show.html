@@ -7,10 +7,8 @@
 <body>
 <p th:text="${book.bookName} + ', ' + ${book.author} + ', ' + ${book.bookYear}">any word</p>
 
-
 <div th:unless="${owner}">
-    <p> Эта книга свободна, кому ее назначить? </p>
-<!--POST or PATCH-->
+    <span> Эта книга свободна, кому ее назначить? </span>
     <form th:method="PATCH" th:action="@{/book/{id}/set(id=${book.getBookId()})}">
         <label for="person">Выберите человека:</label>
         <select id="person" th:object="${person}" th:field="*{personId}"> <!-- *{personId} передаем в @{/book/set} и
@@ -21,9 +19,10 @@
         <input type="submit" value="Назначить книгу"/>
     </form>
 </div>
+
 <div th:if="${owner}">
     <form th:method="PATCH" th:action="@{/book/{id}/del(id=${book.getBookId()})}">
-        <p th:text=" 'Книга сейчас у: ' +  ${owner.getPersonName()}"></p>
+        <span>Книга сейчас у: </span> <span th:text="${owner.getPersonName()}">name</span>
         <input type="submit" value="Освободить книгу"/>
     </form>
 </div>

@@ -8,7 +8,6 @@ public class Person {
     @Pattern(regexp = "[А-ЯA-Z][а-яa-z]+ [А-ЯA-Z][а-яa-z]+ [А-ЯA-Z][а-яa-z]+", message = "Пожалуйста, введите ФИО в формате: Фамилия Имя Отчество")
     private String personName;
 
- //  @Pattern(regexp = "\\d{4}", message = "Введите год в формате XXXX")
     @Min(value = 1900, message = "Год рождения не может быть меньше 1900")
     private int birthYear;
 

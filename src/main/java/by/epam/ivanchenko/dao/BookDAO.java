@@ -20,7 +20,7 @@ public class BookDAO {
     private static final String DELETE_BOOK = "DELETE FROM book WHERE id = ?";
     private static final String GET_USER_BOOK ="SELECT * FROM person WHERE id = (SELECT person_id FROM book WHERE id = ?)";
 //            "SELECT book.*, person.name FROM book JOIN person ON person.id" +
-//                    " = book.person_id WHERE book.id = ?;";
+//                    " = book.person_id WHERE book.id = ?";
 private static final String SET_USER_BOOK ="UPDATE book SET person_id = ? WHERE id = ?";
     private static final String DEL_USER_BOOK ="UPDATE book SET person_id = null WHERE id = ?";
 
