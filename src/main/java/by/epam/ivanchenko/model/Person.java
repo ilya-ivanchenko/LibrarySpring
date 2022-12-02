@@ -1,21 +1,34 @@
 package by.epam.ivanchenko.model;
 
+import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.List;
 
+@Entity
+@Table(name = "person")
 public class Person {
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int personId;
 
+    @Column(name = "name")
     @Pattern(regexp = "[А-ЯA-Z][а-яa-z]+ [А-ЯA-Z][а-яa-z]+ [А-ЯA-Z][а-яa-z]+", message = "Пожалуйста, введите ФИО в формате: Фамилия Имя Отчество")
     private String personName;
 
+    @Column(name = "year")
     @Min(value = 1900, message = "Год рождения не может быть меньше 1900")
     private int birthYear;
 
-    public Person( String personName, int birthYear) {
+    @OneToMany(mappedBy = "owner")
+    private List<Book> books;
+
+    public Person(String personName, int birthYear) {
         this.personName = personName;
         this.birthYear = birthYear;
     }
-    public Person() {
+
+    public Person() {                                                              // Нужен для Spring
     }
 
     public int getPersonId() {
@@ -40,5 +53,41 @@ public class Person {
 
     public void setBirthYear(int birthYear) {
         this.birthYear = birthYear;
+    }
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "personId=" + personId +
+                ", personName='" + personName + '\'' +
+                ", birthYear=" + birthYear +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Person person = (Person) o;
+
+        if (personId != person.personId) return false;
+        if (birthYear != person.birthYear) return false;
+        return personName != null ? personName.equals(person.personName) : person.personName == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = personId;
+        result = 31 * result + (personName != null ? personName.hashCode() : 0);
+        result = 31 * result + birthYear;
+        return result;
     }
 }

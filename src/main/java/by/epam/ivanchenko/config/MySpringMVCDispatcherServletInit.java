@@ -39,22 +39,15 @@ public class MySpringMVCDispatcherServletInit extends AbstractAnnotationConfigDi
         context.addFilter("hiddenHttpMethodFilter",new HiddenHttpMethodFilter()).addMappingForUrlPatterns(null, true, "/*");
     }
 
-
-
-
-
-
-
-    private void registerCharacterEncodingFilter(ServletContext aContext) {
+    private void registerCharacterEncodingFilter(ServletContext context) {
         EnumSet<DispatcherType> dispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD);
 
         CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
         characterEncodingFilter.setEncoding("UTF-8");
         characterEncodingFilter.setForceEncoding(true);
 
-        FilterRegistration.Dynamic characterEncoding = aContext.addFilter("characterEncoding", characterEncodingFilter);
+        FilterRegistration.Dynamic characterEncoding = context.addFilter("characterEncoding", characterEncodingFilter);
         characterEncoding.addMappingForUrlPatterns(dispatcherTypes, true, "/*");
     }
-
 }
 

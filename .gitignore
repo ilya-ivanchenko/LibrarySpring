@@ -12,5 +12,5 @@ springMVC/springMVC_1.iml
 LearningSpring/springCore/springApp_1.iml
 db.properties
 springMVC.iml
-src/main/resources/db.properties
+src/main/resources/hibernate.properties
 

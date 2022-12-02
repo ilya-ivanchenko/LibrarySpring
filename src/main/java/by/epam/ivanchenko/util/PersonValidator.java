@@ -1,8 +1,7 @@
 package by.epam.ivanchenko.util;
 
-import by.epam.ivanchenko.dao.PersonDAO;
 import by.epam.ivanchenko.model.Person;
-import org.springframework.beans.factory.annotation.Autowired;
+import by.epam.ivanchenko.service.PersonService;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -10,11 +9,10 @@ import org.springframework.validation.Validator;
 @Component
 public class PersonValidator implements Validator {
 
-    private final PersonDAO personDAO;
+private final PersonService personService;
 
-    @Autowired
-    public PersonValidator(PersonDAO personDAO) {
-        this.personDAO = personDAO;
+    public PersonValidator(PersonService personService) {
+        this.personService = personService;
     }
 
     @Override
@@ -26,7 +24,7 @@ public class PersonValidator implements Validator {
     public void validate(Object o, Errors errors) {
         Person person = (Person) o;
 
-        if (personDAO.show(person.getPersonName()).isPresent()) {
+        if (personService.getByPersonName(person.getPersonName()).isPresent()) {
                 errors.rejectValue("personName", "", "Такой пользователь существует!");
             }
         }
