@@ -1,10 +1,8 @@
 package by.epam.ivanchenko.controller;
 
-
 import by.epam.ivanchenko.model.Person;
 
 import by.epam.ivanchenko.service.PersonService;
-//import by.epam.ivanchenko.util.PersonValidator;
 import by.epam.ivanchenko.util.PersonValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

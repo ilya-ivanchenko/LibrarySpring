@@ -1,8 +1,5 @@
 package by.epam.ivanchenko.controller;
 
-//import by.epam.ivanchenko.dao.BookDAO;
-//import by.epam.ivanchenko.dao.PersonDAO;
-
 import by.epam.ivanchenko.model.Book;
 import by.epam.ivanchenko.model.Person;
 import by.epam.ivanchenko.service.BookService;
