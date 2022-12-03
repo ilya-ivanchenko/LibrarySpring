@@ -7,6 +7,7 @@ import by.epam.ivanchenko.model.Book;
 import by.epam.ivanchenko.model.Person;
 import by.epam.ivanchenko.service.BookService;
 import by.epam.ivanchenko.service.PersonService;
+import by.epam.ivanchenko.util.BookValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,18 +19,14 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/book")
 public class BookController {
-    //    private final BookDAO bookDAO;
-//
-//    private final PersonDAO personDAO;
-//    private final BookValidator bookValidator;
+
+    private final BookValidator bookValidator;
     private final BookService bookService;
     private final PersonService personService;
 
     @Autowired
-    public BookController(BookService bookService, PersonService personService) {
-//        this.bookDAO = bookDAO;
-//        this.personDAO = personDAO;
-        //     this.bookValidator = bookValidator;
+    public BookController(BookValidator bookValidator, BookService bookService, PersonService personService) {
+        this.bookValidator = bookValidator;
         this.bookService = bookService;
         this.personService = personService;
     }
@@ -54,11 +51,11 @@ public class BookController {
 
     @PostMapping
     public String createBook(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult) {
-        //   bookValidator.validate(book, bindingResult);
-
+        bookValidator.validate(book, bindingResult);
         if (bindingResult.hasErrors()) {
             return "book/new";
         }
+
         bookService.save(book);
         return "redirect:/book";
     }
@@ -66,8 +63,15 @@ public class BookController {
     @GetMapping("/{id}")
     public String showBook(@PathVariable("id") int id, Model bookModel, @ModelAttribute("person") Person person) {
         bookModel.addAttribute("book", bookService.findOne(id));
-        // bookModel.addAttribute("owner", bookService.getPerson(id));
-        bookModel.addAttribute("personList", personService.findAll());
+
+        Person owner = bookService.getOwner(id);
+
+        if (owner != null) {
+            bookModel.addAttribute("owner", bookService.getOwner(id));
+        } else {
+            bookModel.addAttribute("personList", personService.findAll());
+        }
+
         return "book/show";
     }
 
@@ -81,8 +85,7 @@ public class BookController {
     public String updateBook(@ModelAttribute("book")
                              @Valid Book book, BindingResult bindingResult,
                              @PathVariable("id") int id) {
-        //   bookValidator.validate(book, bindingResult);
-
+          // bookValidator.validate(book, bindingResult);
         if (bindingResult.hasErrors()) {
             return "book/edit";
         }
@@ -97,15 +100,26 @@ public class BookController {
     }
 
     @PatchMapping("/{id}/set")
-    public String setBook(@ModelAttribute("person") Person person, @PathVariable("id") int bookId) {
-        bookService.setPerson(person.getPersonId(), bookId);
+    public String setOwner(@ModelAttribute("person") Person person, @PathVariable("id") int bookId) {
+        bookService.setOwner(bookId, person);
         return "redirect:/book/{id}";
     }
 
     @PatchMapping("/{id}/del")
-    public String delBook(@PathVariable("id") int bookId) {
-        bookService.delPerson(bookId);
+    public String delOwner(@PathVariable("id") int bookId) {
+        bookService.delOwner(bookId);
         return "redirect:/book/{id}";
     }
 
+    @GetMapping("/search")
+    public String searchPage() {
+        return "book/search";
+    }
+
+    @PostMapping("/search")
+    public String goSearch(Model model, @RequestParam("query") String query) {
+        model.addAttribute("book", bookService.getBookStartingWith(query));
+        return "book/search";
+    }
 }
+

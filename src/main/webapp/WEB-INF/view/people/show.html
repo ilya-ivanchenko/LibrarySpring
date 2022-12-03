@@ -14,9 +14,14 @@
     <hr/>
     <h3>Книги:</h3>
     <table th:each="personBook : ${book}">
-        <tr th:text="${personBook.getBookName()} + ', ' +
-    ${personBook.getAuthor()} + ', ' +
-    ${personBook.getBookYear()}">name</tr>
+        <tr>
+            <td>
+                <span th:text="${personBook.getBookName()} + ', ' +
+            ${personBook.getAuthor()} + ', ' +
+            ${personBook.getBookYear()}"
+                      th:style="${personBook.isExpired()} ? 'color: red' : 'color:black'">name</span>
+            </td>
+        </tr>
     </table>
     <br/>
 </div>

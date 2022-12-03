@@ -13,6 +13,7 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person owner;
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,7 +38,7 @@ public class Book {
     @Temporal(TemporalType.TIMESTAMP)
     private Date takenAt;
 
-    @Transient                                                  // Hibernate не будет замеать это поле
+    @Transient                                                  // Hibernate не будет замечать это поле
     private boolean expired;                                    // Просрочена книга или нет
 
     public Book(String bookName, String author, int bookYear) {

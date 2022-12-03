@@ -71,7 +71,7 @@ public class PersonService {
         }
     }
 
-    public Optional<Person> getByPersonName(String personName) {
+    public Optional<Person> getByPersonName(String personName) {                                    // Для валидатора
         return personRepository.findByPersonName(personName);
     }
 
