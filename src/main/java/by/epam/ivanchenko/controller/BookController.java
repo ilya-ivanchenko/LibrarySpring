@@ -5,6 +5,7 @@ import by.epam.ivanchenko.model.Person;
 import by.epam.ivanchenko.service.BookService;
 import by.epam.ivanchenko.service.PersonService;
 import by.epam.ivanchenko.util.BookValidator;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -114,7 +115,7 @@ public class BookController {
     }
 
     @PostMapping("/search")
-    public String goSearch(Model model, @RequestParam("query") String query) {
+    public String goSearch(Model model, @RequestParam("query")  String query) {
         model.addAttribute("book", bookService.getBookStartingWith(query));
         return "book/search";
     }

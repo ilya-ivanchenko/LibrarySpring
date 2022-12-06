@@ -13,12 +13,13 @@
     <input type="submit" value="Искать">
 </form>
 
-<div th:if="${book.isEmpty()}">
-    <br>
-    <span>Книг не найдено</span>
-</div>
+
 
 <div th:if="${book}">
+    <div th:if="${book.isEmpty()}">
+        <br>
+        <span>Книг не найдено</span>
+    </div>
     <div th:each="findedBook : ${book}">
         <p th:text="${findedBook.getBookName() + ', ' + findedBook.getAuthor() + ', ' + findedBook.getBookYear()}">
             book</p>

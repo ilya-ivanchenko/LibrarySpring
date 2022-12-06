@@ -1,8 +1,12 @@
 package by.epam.ivanchenko.model;
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
+import jakarta.persistence.*;
+
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "person")
@@ -22,6 +26,7 @@ public class Person {
 
     @OneToMany(mappedBy = "owner")
     private List<Book> books;
+
 
     public Person(String personName, int birthYear) {
         this.personName = personName;
@@ -80,7 +85,7 @@ public class Person {
 
         if (personId != person.personId) return false;
         if (birthYear != person.birthYear) return false;
-        return personName != null ? personName.equals(person.personName) : person.personName == null;
+        return Objects.equals(personName, person.personName);
     }
 
     @Override

@@ -1,9 +1,12 @@
 package by.epam.ivanchenko.model;
 
-import javax.persistence.*;
+
+import jakarta.persistence.*;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+
 import java.util.Date;
 
 @Entity
